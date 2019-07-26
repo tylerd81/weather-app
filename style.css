@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 62.5%;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 60vh;
+  background-color: lightskyblue;
+  color: white;
+}
+
+.city-name {
+  align-self: flex-end;
+  padding: 1rem;
+  font-size: 2.5rem;
+  flex: 1;
+}
+
+.temp-container {
+  font-size: 4rem;
+  flex: 2;
+}
+
+.description {
+  font-size: 1.2rem;
+  text-align: center;
+}
+.bottom {
+  display: flex;
+  background-color: slategray;
+  height: 40vh;
+  align-items: center;
+}
+
+ul#forecast {
+  display: flex;
+  font-size: 1.2rem;
+  list-style-type: none;
+  justify-content: space-between;
+  width: 100%;
+  height: 50%;
+  padding: 1rem;
+}
+
+li {
+  width: 10rem;
+}
+
+.weather-card {
+  color: white;
+}
+
+.weather-icon {
+  display: block;
+  margin-top: 1rem;
+
+  margin: 1rem auto;
+  text-align: center;
+  color: lightseagreen;
+}
+
+.day {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+}
+.temperature {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+}
