@@ -4,32 +4,16 @@ const degreeSign = "&#176;";
 const tempUnit = "F";
 const apiKey = "a810861bf076b52f064ad589d2a225d8";
 
-const setCurrentTemperature = async zip => {
-  const currTemp = document.getElementById("current-temp");
-  const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&appid=a810861bf076b52f064ad589d2a225d8`;
+export const displayCurrentForecast = forecast => {
+  const cityName = document.querySelector("#city-name");
+  const currentTemp = document.querySelector("#current-temp");
+  const description = document.querySelector("#weather-description");
 
-  const response = await fetch(url);
-
-  if (response.ok) {
-    const data = await response.json();
-    const temp = Math.floor(data.main.temp);
-    const desc = data.weather[0].description;
-    const city = data.name;
-
-    currTemp.innerHTML = `${temp}${degreeSign}${tempUnit}`;
-    setWeatherDescription(desc);
-    setCity(city);
-  }
-};
-
-const setWeatherDescription = desc => {
-  const wd = document.getElementById("weather-description");
-  wd.innerHTML = desc;
-};
-
-const setCity = cityName => {
-  const city = document.getElementById("city-name");
-  city.innerHTML = cityName;
+  cityName.innerText = forecast.city;
+  currentTemp.innerHTML = `${Math.floor(
+    forecast.temp
+  )}${degreeSign}${tempUnit}`;
+  description.innerText = forecast.description;
 };
 
 const createWeatherCard = weatherData => {
@@ -46,16 +30,13 @@ const createWeatherCard = weatherData => {
   return card;
 };
 
-const addWeatherCard = weatherData => {
+export const addWeatherCard = weatherData => {
   const forecastList = document.getElementById("forecast");
   const li = document.createElement("li");
   const card = createWeatherCard(weatherData);
   li.appendChild(card);
   forecastList.appendChild(li);
 };
-
-const zip = 12303;
-setCurrentTemperature(zip);
 
 const Run = async () => {
   const forecast = await getWeatherData(zip);
