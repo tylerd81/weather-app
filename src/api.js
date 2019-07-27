@@ -40,37 +40,35 @@ export const getFiveDayForecast = async zip => {
   const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?zip=${zip}&cnt=${numForecast}&units=imperial&appid=${apiKey}`;
 
   const response = await fetch(apiUrl);
-  const forecastData = {};
+  const forecastList = []; // array that will contai array of arrays - a new
+  // array for each day.
 
   if (response.ok && response.status === 200) {
     const data = await response.json();
     const weatherData = data.list;
 
-    const city = data.city.name;
+    let prevDate = weatherData[0].dt_txt.substring(0, 10); //first date
+    let forecastData = []; // temp array for saving the data for the same days
 
-    // loop through the list and create an associative array, using the
-    // date string as a key.
-
-    // openweather returns an array of data - one item for every 3 hours - in the list
-    // property of the json object that is returned.
+    // create an array of arrays - each day is a new array
+    // each entry for the same day is in the same array.
 
     weatherData.forEach(data => {
-      // get the date
-      // the string returned is in the format YYYY-MM-DD HH:MM:SS"
-
       let date = data.dt_txt.substring(0, 10);
-      // let time = data.dt_txt.substring(11, 16);
+      if (date === prevDate) {
+        // save to the temp array
+        forecastData.push(createForecastObject(data));
+      } else {
+        // next day
+        prevDate = date;
+        forecastList.push(forecastData); // save to the main forecast list
 
-      if (typeof forecastData[date] === "undefined") {
-        forecastData[date] = []; // create a new array for the new date
+        forecastData = []; // reset the temp array
+        forecastData.push(createForecastObject(data)); // save the current data
       }
-
-      const currentForecast = createForecastObject(data);
-      forecastData[date].push(currentForecast);
     });
   } else {
     throw new Error("Failed to load forecast data from the api.");
   }
-
-  return forecastData;
+  return forecastList;
 };

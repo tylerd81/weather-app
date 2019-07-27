@@ -7,12 +7,9 @@ import { displayCurrentForecast, addWeatherCard } from "./weather";
 
 getFiveDayForecast(12303)
   .then(forecast => {
-    // console.log(forecast);
-
-    for (const forecastDate in forecast) {
-      console.log(forecastDate);
-      const data = forecast[forecastDate][0];
-
+    forecast.forEach(forecastData => {
+      const data = forecastData[6] || forecastData[0];
+      console.log(data);
       // forecast.forEach(data => {
       const weatherIcon = data.icon;
       const temp = Math.floor(data.temp);
@@ -28,7 +25,7 @@ getFiveDayForecast(12303)
       };
 
       addWeatherCard(weatherData);
-    }
+    });
   })
   .catch(err => console.log(err.message));
 
