@@ -9,11 +9,11 @@ export const displayCurrentForecast = forecast => {
   const currentTemp = document.querySelector("#current-temp");
   const description = document.querySelector("#weather-description");
 
-  cityName.innerText = forecast.city;
+  cityName.innerHTML = forecast.city;
   currentTemp.innerHTML = `${Math.floor(
     forecast.temp
   )}${degreeSign}${tempUnit}`;
-  description.innerText = forecast.description;
+  description.innerHTML = forecast.description;
 };
 
 const createWeatherCard = weatherData => {
@@ -38,37 +38,26 @@ export const addWeatherCard = weatherData => {
   forecastList.appendChild(li);
 };
 
-const Run = async () => {
-  const forecast = await getWeatherData(zip);
+export const displayFiveDayForecast = forecast => {
+  document.querySelector("ul#forecast").innerHTML = "";
 
-  if (!Array.isArray(forecast)) {
-    console.log("Error getting weather data");
-    return;
-  }
+  forecast.forEach(forecastData => {
+    const data = forecastData[6] || forecastData[0];
+    console.log(data);
+    // forecast.forEach(data => {
+    const weatherIcon = data.icon;
+    const temp = Math.floor(data.temp);
 
-  forecast.forEach(data => {
-    const weatherIcon = data.weather[0].icon;
-    const temp = Math.floor(data.main.temp);
-    const dateString = data.dt_txt.substring(0, 10);
-
-    const year = dateString.substring(0, 4);
-    let month = (Number.parseInt(dateString.substring(5, 7)) - 1).toString();
-    if (month < 0) {
-      month = 12;
-    }
-
-    const date = dateString.substring(8, 10);
-    const forecastDay = new Date(year, month, date)
-      .toDateString()
-      .substring(0, 3);
+    //convert the timestamp into a string
+    const date = new Date(data.time * 1000);
+    const day = date.toDateString().substring(0, 3);
 
     const weatherData = {
       weatherIcon,
       temp,
-      day: forecastDay
+      day
     };
+
     addWeatherCard(weatherData);
   });
 };
-
-export default Run;
