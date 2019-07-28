@@ -30,7 +30,7 @@ const createWeatherCard = weatherData => {
   return card;
 };
 
-export const addWeatherCard = weatherData => {
+const addWeatherCard = weatherData => {
   const forecastList = document.getElementById("forecast");
   const li = document.createElement("li");
   const card = createWeatherCard(weatherData);
@@ -38,13 +38,19 @@ export const addWeatherCard = weatherData => {
   forecastList.appendChild(li);
 };
 
+const timestampToString = timestamp => {
+  const d = new Date(timestamp * 1000);
+  console.log(timestamp);
+  return d.toTimeString();
+};
+
 export const displayFiveDayForecast = forecast => {
   document.querySelector("ul#forecast").innerHTML = "";
 
   forecast.forEach(forecastData => {
-    const data = forecastData[6] || forecastData[0];
-    console.log(data);
-    // forecast.forEach(data => {
+    const forecastIndex = forecastData.length < 8 ? 0 : forecastData.length - 2;
+    // const data = forecastData[forecastData.length - 2] || forecastData[0];
+    const data = forecastData[forecastIndex];
     const weatherIcon = data.icon;
     const temp = Math.floor(data.temp);
 
