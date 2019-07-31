@@ -1,8 +1,5 @@
-import { getWeatherData } from "./api";
-
 const degreeSign = "&#176;";
 const tempUnit = "F";
-const apiKey = "a810861bf076b52f064ad589d2a225d8";
 
 export const displayCurrentForecast = forecast => {
   const cityName = document.querySelector("#city-name");
